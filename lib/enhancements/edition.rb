@@ -48,7 +48,14 @@ class Edition
     all_of(for_user(user).selector, internal_search(term).selector)
   }
 
-  after_save :notify_update_publishing_api
+  def save(options = {})
+    should_update_publishing_api = self.changes.keys.present?
+    if super(options)
+      notify_update_publishing_api if should_update_publishing_api
+    end
+  end
+
+  # after_save :notify_update_publishing_api
 
   def publish_anonymously!
     if can_publish?
