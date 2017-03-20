@@ -26,12 +26,14 @@ class DowntimeTest < JavascriptIntegrationTest
     enter_start_time first_of_july_next_year_at_midday_bst
     enter_end_time first_of_july_next_year_at_six_pm_bst
 
-    assert_match("midday to 6pm on #{day} 1 July", page.find_field('Message').value)
+    puts "debug time zone: #{Time.zone}"
+
+    assert_match("midday to 5pm on #{day} 1 July", page.find_field('Message').value)
     click_button 'Schedule downtime message'
 
     assert page.has_content?('Apply to become a driving instructor downtime message scheduled')
     assert page.has_content?('Scheduled downtime')
-    assert page.has_content?("midday to 6pm on 1 July")
+    assert page.has_content?("midday to 5pm on 1 July")
   end
 
   test "Rescheduling downtime" do
@@ -43,11 +45,11 @@ class DowntimeTest < JavascriptIntegrationTest
     click_link 'Edit downtime'
     enter_end_time first_of_july_next_year_at_nine_thirty_pm_bst
 
-    assert_match("This service will be unavailable from midday to 9:30pm on #{day} 1 July.", page.find_field('Message').value)
+    assert_match("This service will be unavailable from midday to 8:30pm on #{day} 1 July.", page.find_field('Message').value)
     click_on 'Re-schedule downtime message'
 
     assert page.has_content?('Apply to become a driving instructor downtime message re-scheduled')
-    assert page.has_content?("midday to 9:30pm on 1 July")
+    assert page.has_content?("midday to 8:30pm on 1 July")
   end
 
   test "Cancelling downtime" do
@@ -84,7 +86,7 @@ class DowntimeTest < JavascriptIntegrationTest
   end
 
   def first_of_july_next_year_at_midday_bst
-    Time.new(next_year, 7, 1, 11, 0).in_time_zone
+    Time.new(next_year, 7, 1, 12, 0).in_time_zone
   end
 
   def first_of_july_next_year_at_six_pm_bst
