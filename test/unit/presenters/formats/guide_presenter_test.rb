@@ -98,8 +98,12 @@ class GuidePresenterTest < ActiveSupport::TestCase
 
   should "[:routes]" do
     edition.update_attribute(:slug, 'foo')
+    add_part(2)
+    add_part(1)
     expected = [
-      { path: '/foo', type: 'prefix' },
+      { path: '/foo', type: 'exact' },
+      { path: '/foo/slug-1', type: 'exact' },
+      { path: '/foo/slug-2', type: 'exact' },
     ]
     assert_equal expected, result[:routes]
   end

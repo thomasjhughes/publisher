@@ -35,5 +35,11 @@ module Formats
         }
       end
     end
+
+    def routes
+      super + edition.parts.in_order.map do |part|
+        { path: "#{base_path}/#{part.slug}", type: 'exact' }
+      end
+    end
   end
 end

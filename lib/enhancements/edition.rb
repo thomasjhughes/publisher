@@ -27,6 +27,7 @@ class Edition
 
   EXACT_ROUTE_EDITION_CLASSES = [
     CampaignEdition,
+    GuideEdition,
     HelpPageEdition,
     TransactionEdition
   ].freeze
