@@ -12,7 +12,8 @@ module Formats
         rendering_app: "government-frontend",
         publishing_app: "publisher",
         document_type: "service_sign_in",
-        locale: locale
+        locale: locale,
+        update_type: update_type
       }
     end
 
@@ -20,6 +21,10 @@ module Formats
 
     def locale
       content[:locale]
+    end
+
+    def update_type
+      content[:update_type]
     end
   end
 end
