@@ -50,4 +50,8 @@ class ServiceSignInTest < ActiveSupport::TestCase
   should "[:change_note]" do
     assert_equal @content[:change_note], result[:change_note]
   end
+
+  should "[:base_path]" do
+    assert_equal "/log-in-file-self-assessment-tax-return/sign-in", result[:base_path]
+  end
 end
