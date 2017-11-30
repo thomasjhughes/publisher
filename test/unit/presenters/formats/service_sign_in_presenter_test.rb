@@ -4,11 +4,19 @@ class ServiceSignInTest < ActiveSupport::TestCase
   include GovukContentSchemaTestHelpers::TestUnit
 
   def subject
-    Formats::ServiceSignInPresenter.new(file_name)
+    Formats::ServiceSignInPresenter.new(@content)
   end
 
   def file_name
-    "this will be a yaml file"
+    "example.yaml"
+  end
+
+  def load_content_from_file(file_name)
+    @content ||= YAML.load_file(Rails.root.join("lib", "service_sign_in", file_name)).deep_symbolize_keys
+  end
+
+  def setup
+    load_content_from_file(file_name)
   end
 
   def result
@@ -29,5 +37,9 @@ class ServiceSignInTest < ActiveSupport::TestCase
 
   should "[:document_type]" do
     assert_equal 'service_sign_in', result[:document_type]
+  end
+
+  should "[:locale]" do
+    assert_equal @content[:locale], result[:locale]
   end
 end
