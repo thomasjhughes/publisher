@@ -19,6 +19,7 @@ module Formats
         routes: routes,
         title: title,
         description: description,
+        public_updated_at: public_updated_at,
       }
     end
 
@@ -52,6 +53,10 @@ module Formats
 
     def description
       parent.overview
+    end
+
+    def public_updated_at
+      DateTime.now.rfc3339 if update_type == "major"
     end
 
     def parent

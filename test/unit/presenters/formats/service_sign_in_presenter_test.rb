@@ -25,8 +25,12 @@ class ServiceSignInTest < ActiveSupport::TestCase
     )
   end
 
+  def parent_base_path
+    "/log-in-file-self-assessment-tax-return"
+  end
+
   def base_path
-    "/log-in-file-self-assessment-tax-return/sign-in"
+    "#{parent_base_path}/sign-in"
   end
 
   def result
@@ -78,5 +82,22 @@ class ServiceSignInTest < ActiveSupport::TestCase
 
   should "[:description]" do
     assert_equal @parent.overview, result[:description]
+  end
+
+
+  context "[:public_updated_at]" do
+    should "return current timestamp when update_type is 'major'" do
+      Timecop.freeze do
+        assert_equal DateTime.now.rfc3339, result[:public_updated_at]
+      end
+    end
+
+    should "return public_updated_at from content-store when update_type is not 'major'" do
+      Formats::ServiceSignInPresenter.stub :update_type, "minor" do
+        content_store_has_item(parent_base_path)
+        content_item = content_item_for_base_path(parent_base_path)
+        assert_equal content_item["public_updated_at"], result[:public_updated_at]
+      end
+    end
   end
 end
