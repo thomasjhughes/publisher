@@ -56,7 +56,10 @@ module Formats
     end
 
     def public_updated_at
-      DateTime.now.rfc3339 if update_type == "major"
+      return DateTime.now.rfc3339 if update_type == "major"
+
+      content_item = Services.content_store.content_item(base_path)
+      content_item["public_updated_at"]
     end
 
     def parent

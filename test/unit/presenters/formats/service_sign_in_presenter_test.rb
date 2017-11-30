@@ -1,7 +1,9 @@
 require 'test_helper'
+require 'gds_api/test_helpers/content_store'
 
 class ServiceSignInTest < ActiveSupport::TestCase
   include GovukContentSchemaTestHelpers::TestUnit
+  include GdsApi::TestHelpers::ContentStore
 
   def subject
     Formats::ServiceSignInPresenter.new(@content)
@@ -97,11 +99,11 @@ class ServiceSignInTest < ActiveSupport::TestCase
     end
 
     should "return public_updated_at from content-store when update_type is not 'major'" do
-      Formats::ServiceSignInPresenter.stub :update_type, "minor" do
-        content_store_has_item(parent_base_path)
-        content_item = content_item_for_base_path(parent_base_path)
-        assert_equal content_item["public_updated_at"], result[:public_updated_at]
-      end
+      @content[:update_type] = "minor"
+      service_sign_in_base_path = "#{parent_base_path}/sign-in"
+      content_store_has_item(service_sign_in_base_path)
+      content_item = content_item_for_base_path(service_sign_in_base_path)
+      assert_equal content_item["public_updated_at"], result[:public_updated_at]
     end
   end
 end
