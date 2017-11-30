@@ -19,6 +19,10 @@ class ServiceSignInTest < ActiveSupport::TestCase
     load_content_from_file(file_name)
   end
 
+  def base_path
+    "/log-in-file-self-assessment-tax-return/sign-in"
+  end
+
   def result
     subject.render_for_publishing_api
   end
@@ -52,6 +56,13 @@ class ServiceSignInTest < ActiveSupport::TestCase
   end
 
   should "[:base_path]" do
-    assert_equal "/log-in-file-self-assessment-tax-return/sign-in", result[:base_path]
+    assert_equal base_path, result[:base_path]
+  end
+
+  should "[:routes]" do
+    expected = [
+      { path: base_path, type: "prefix" },
+    ]
+    assert_equal expected, result[:routes]
   end
 end
