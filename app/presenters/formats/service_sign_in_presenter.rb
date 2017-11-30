@@ -17,6 +17,7 @@ module Formats
         change_note: change_note,
         base_path: base_path,
         routes: routes,
+        title: title,
       }
     end
 
@@ -42,6 +43,10 @@ module Formats
       [
         { path: base_path.to_s, type: "prefix" },
       ]
+    end
+
+    def title
+      Edition.where(slug: parent_slug).last.title
     end
 
     def parent_slug

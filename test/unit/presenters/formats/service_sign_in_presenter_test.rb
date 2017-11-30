@@ -17,6 +17,12 @@ class ServiceSignInTest < ActiveSupport::TestCase
 
   def setup
     load_content_from_file(file_name)
+    @artefact ||= FactoryGirl.create(:artefact, kind: "transaction")
+    @parent ||= FactoryGirl.create(
+      :transaction_edition,
+      panopticon_id: @artefact.id,
+      slug: "log-in-file-self-assessment-tax-return"
+    )
   end
 
   def base_path
@@ -64,5 +70,9 @@ class ServiceSignInTest < ActiveSupport::TestCase
       { path: base_path, type: "prefix" },
     ]
     assert_equal expected, result[:routes]
+  end
+
+  should "[:title]" do
+    assert_equal @parent.title, result[:title]
   end
 end
