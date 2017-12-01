@@ -20,6 +20,7 @@ module Formats
         title: title,
         description: description,
         public_updated_at: public_updated_at,
+        details: details,
       }
     end
 
@@ -72,6 +73,18 @@ module Formats
     def public_updated_at
       return DateTime.now.rfc3339 if update_type == "major"
       content_item["public_updated_at"]
+    end
+
+    def details
+      {
+        choose_sign_in: choose_sign_in,
+      }
+    end
+
+    def choose_sign_in
+      {
+        title: content[:choose_sign_in][:title],
+      }
     end
 
     def content_item
