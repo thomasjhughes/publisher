@@ -176,5 +176,12 @@ class ServiceSignInTest < ActiveSupport::TestCase
         assert_equal expected, result[:details][:choose_sign_in][:options]
       end
     end
+
+    context "[:create_new_account]" do
+      should "[:title]" do
+        assert_equal @content[:create_new_account][:title],
+          result[:details][:create_new_account][:title]
+      end
+    end
   end
 end
