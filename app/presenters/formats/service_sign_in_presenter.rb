@@ -91,7 +91,18 @@ module Formats
             content: content[:choose_sign_in][:description]
           }
         ],
+        options: options,
       }
+    end
+
+    def options
+      options = content[:choose_sign_in][:options]
+      options.each do |option|
+        if option.key?(:slug)
+          option[:slug] = "#{base_path}/#{option[:slug]}"
+          option[:url] = option.delete :slug
+        end
+      end
     end
 
     def content_item

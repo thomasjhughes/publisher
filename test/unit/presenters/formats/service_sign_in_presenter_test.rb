@@ -152,6 +152,29 @@ class ServiceSignInTest < ActiveSupport::TestCase
         ]
         assert_equal expected, result[:details][:choose_sign_in][:description]
       end
+
+      should "[:options]" do
+        option_one = @content[:choose_sign_in][:options][0]
+        option_two = @content[:choose_sign_in][:options][1]
+        option_three = @content[:choose_sign_in][:options][2]
+        expected = [
+          {
+            text: option_one[:text],
+            url: option_one[:url],
+            hint_text: option_one[:hint_text],
+          },
+          {
+            text: option_two[:text],
+            url: option_two[:url],
+            hint_text: option_two[:hint_text],
+          },
+          {
+            text: option_three[:text],
+            url: "#{base_path}/#{option_three[:slug]}",
+          },
+        ]
+        assert_equal expected, result[:details][:choose_sign_in][:options]
+      end
     end
   end
 end
