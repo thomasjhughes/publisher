@@ -100,10 +100,18 @@ class ServiceSignInTest < ActiveSupport::TestCase
 
     should "return public_updated_at from content-store when update_type is not 'major'" do
       @content[:update_type] = "minor"
-      service_sign_in_base_path = "#{parent_base_path}/sign-in"
-      content_store_has_item(service_sign_in_base_path)
-      content_item = content_item_for_base_path(service_sign_in_base_path)
+      content_store_has_item(base_path)
+      content_item = content_item_for_base_path(base_path)
       assert_equal content_item["public_updated_at"], result[:public_updated_at]
+    end
+  end
+
+  context "[:content_id]" do
+    should "create a new content id if we are creating a new content item" do
+      content_store_does_not_have_item(base_path)
+      SecureRandom.stub :uuid, "random-uuid-string" do
+        assert_equal "random-uuid-string", result[:content_id]
+      end
     end
   end
 end

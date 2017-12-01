@@ -20,6 +20,7 @@ module Formats
         title: title,
         description: description,
         public_updated_at: public_updated_at,
+        content_id: content_id,
       }
     end
 
@@ -60,6 +61,10 @@ module Formats
 
       content_item = Services.content_store.content_item(base_path)
       content_item["public_updated_at"]
+    end
+
+    def content_id
+      SecureRandom.uuid
     end
 
     def parent
