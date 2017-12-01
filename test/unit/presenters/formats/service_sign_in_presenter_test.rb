@@ -25,6 +25,7 @@ class ServiceSignInTest < ActiveSupport::TestCase
       panopticon_id: @artefact.id,
       slug: "log-in-file-self-assessment-tax-return"
     )
+    content_store_does_not_have_item(base_path)
   end
 
   def parent_base_path
@@ -41,6 +42,22 @@ class ServiceSignInTest < ActiveSupport::TestCase
 
   should "be valid against schema" do
     assert_valid_against_schema(result, 'service_sign_in')
+  end
+
+  context "#content_id" do
+    should "create a new content id if we are creating a new content item" do
+      SecureRandom.stub :uuid, "random-uuid-string" do
+        assert_equal "random-uuid-string", subject.content_id
+      end
+    end
+
+    should "use existing content_id if content_item already exists in content-store" do
+      content_item = content_item_for_base_path(base_path)
+      content_item["content_id"] = "content-item-id"
+      content_store_has_item(base_path, content_item)
+
+      assert_equal content_item["content_id"], subject.content_id
+    end
   end
 
   should "[:schema_name]" do
@@ -103,15 +120,6 @@ class ServiceSignInTest < ActiveSupport::TestCase
       content_store_has_item(base_path)
       content_item = content_item_for_base_path(base_path)
       assert_equal content_item["public_updated_at"], result[:public_updated_at]
-    end
-  end
-
-  context "[:content_id]" do
-    should "create a new content id if we are creating a new content item" do
-      content_store_does_not_have_item(base_path)
-      SecureRandom.stub :uuid, "random-uuid-string" do
-        assert_equal "random-uuid-string", result[:content_id]
-      end
     end
   end
 end

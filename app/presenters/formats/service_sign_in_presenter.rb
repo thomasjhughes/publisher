@@ -20,8 +20,15 @@ module Formats
         title: title,
         description: description,
         public_updated_at: public_updated_at,
-        content_id: content_id,
       }
+    end
+
+    def content_id
+      begin
+        content_item["content_id"]
+      rescue GdsApi::ContentStore::ItemNotFound
+        SecureRandom.uuid
+      end
     end
 
   private
@@ -58,13 +65,11 @@ module Formats
 
     def public_updated_at
       return DateTime.now.rfc3339 if update_type == "major"
-
-      content_item = Services.content_store.content_item(base_path)
       content_item["public_updated_at"]
     end
 
-    def content_id
-      SecureRandom.uuid
+    def content_item
+      @content_item ||= Services.content_store.content_item(base_path)
     end
 
     def parent
