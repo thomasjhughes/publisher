@@ -122,4 +122,12 @@ class ServiceSignInTest < ActiveSupport::TestCase
       assert_equal content_item["public_updated_at"], result[:public_updated_at]
     end
   end
+
+  should "#links" do
+    expected = {
+      parent: [@parent.content_id]
+    }
+
+    assert_equal expected, subject.links
+  end
 end

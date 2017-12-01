@@ -31,6 +31,12 @@ module Formats
       end
     end
 
+    def links
+      {
+        parent: [parent.content_id]
+      }
+    end
+
   private
 
     def locale
