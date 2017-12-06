@@ -28,6 +28,8 @@ Rails.application.configure do
   # Compress JavaScripts and CSS
   config.assets.compress = true
 
+  config.action_mailer.delivery_method = :test
+
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
